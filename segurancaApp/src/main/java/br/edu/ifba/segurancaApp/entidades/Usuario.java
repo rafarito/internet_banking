@@ -1,5 +1,6 @@
 package br.edu.ifba.segurancaApp.entidades;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.edu.ifba.segurancaApp.dtos.UsuarioForm;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 
 @Entity(name = "usuarios")
@@ -24,8 +27,13 @@ public class Usuario implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	@Column(unique = true)
+	private String cpf;
+	@Column(unique = true, name = "email")
 	private String login;
 	private String senha;
+	@OneToOne
+	private Conta conta;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
             name = "usuarios_roles",
@@ -33,6 +41,7 @@ public class Usuario implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "roles_id")
             )
 	private List<Role> roles= new ArrayList<Role>();
+	private LocalDate dataCadastro;
 
 	
 	public List<Role> getRoles() {
@@ -41,6 +50,14 @@ public class Usuario implements UserDetails {
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Usuario(String nome, String cpf, String login, String senha) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.login = login;
+		this.senha = senha;
+		this.dataCadastro = LocalDate.now();
 	}
 
 	public Usuario() {
@@ -59,6 +76,7 @@ public class Usuario implements UserDetails {
 		this.nome = usuarioForm.nome();
 		this.login = usuarioForm.login();
 		this.senha = usuarioForm.senha();
+		this.cpf = usuarioForm.cpf();
 	}
 
 	public Long getId() {
@@ -107,7 +125,27 @@ public class Usuario implements UserDetails {
 	public String getUsername() {
 		return login;
 	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 	
+	public Conta getConta() {
+		return conta;
+	}
+
+	public void setConta(Conta conta) {
+		this.conta = conta;
+	}
+
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
+
 	
 
 }
