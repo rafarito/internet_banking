@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 import br.edu.ifba.segurancaApp.dtos.UsuarioDTO;
 import br.edu.ifba.segurancaApp.dtos.UsuarioForm;
 import br.edu.ifba.segurancaApp.servicos.UsuarioService;
@@ -27,7 +29,7 @@ public class UsuarioController {
 	
 	@PostMapping
 	@Secured("ROLE_USER")
-	public ResponseEntity<UsuarioDTO> salvar(@RequestBody UsuarioForm usuarioForm) {
+	public ResponseEntity<UsuarioDTO> salvar(@Valid @RequestBody UsuarioForm usuarioForm) {
 		UsuarioDTO usuarioDTO = usuarioService.salvar(usuarioForm);
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDTO);
 	}
