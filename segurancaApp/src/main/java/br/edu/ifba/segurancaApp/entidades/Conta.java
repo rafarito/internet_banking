@@ -23,6 +23,9 @@ public class Conta {
     private Usuario usuario;
     @OneToMany
     private List<Operacao> operacoes;
+
+    public Conta() {
+    }
     
     public Conta(long numero, String agencia, BigDecimal saldo, Usuario usuario) {
         this.numero = numero;
