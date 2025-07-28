@@ -13,7 +13,7 @@ public class SwaggerConfiguration {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API de internet banking")
+                        .title("API de Internet Banking")
                         .version("1.0")
                         .description("Documentação da API de internet banking"));
     }
