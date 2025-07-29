@@ -7,6 +7,6 @@ import br.edu.ifba.segurancaApp.entidades.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	
-	UserDetails findByLogin(String username);
+	Usuario findByLogin(String username);
 
 }

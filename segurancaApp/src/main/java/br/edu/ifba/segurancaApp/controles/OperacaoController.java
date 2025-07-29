@@ -30,7 +30,7 @@ public class OperacaoController {
 
         try {
             operacaoService.realizarDeposito(depositoForm, username);
-        } catch (Exception e) {
+        } catch (Exception e) { //TODO handle specific exceptions
             return ResponseEntity.badRequest().body("Erro ao realizar depósito: " + e.getMessage());
         }
 
@@ -44,7 +44,7 @@ public class OperacaoController {
 
         try {
             operacaoService.realizarSaque(saqueForm, username);
-        } catch (Exception e) {
+        } catch (Exception e) { //TODO handle specific exceptions
             return ResponseEntity.badRequest().body("Erro ao realizar saque: " + e.getMessage());
         }
 
@@ -58,7 +58,7 @@ public class OperacaoController {
 
         try {
             operacaoService.realizarPagamento(pagamentoForm, username);
-        } catch (Exception e) {
+        } catch (Exception e) {//TODO handle specific exceptions
             return ResponseEntity.badRequest().body("Erro ao realizar pagamento: " + e.getMessage());
         }
 
@@ -73,7 +73,7 @@ public class OperacaoController {
         try {
             var extrato = operacaoService.consultarExtrato(numeroConta, username);
             return ResponseEntity.ok(extrato);
-        } catch (Exception e) {
+        } catch (Exception e) { //TODO handle specific exceptions
             return ResponseEntity.badRequest().body("Erro ao consultar extrato: " + e.getMessage());
         }
     }
