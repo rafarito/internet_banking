@@ -125,13 +125,13 @@ public class OperacaoService { //TODO as operações devem enviar emails
         operacaoRepository.save(operacaoPagante);
     }
 
-    public List<OperacaoDTO> consultarExtrato(Long numeroConta, String username) {
+    public List<OperacaoDTO> consultarExtrato(String username) {
         Usuario usuario = usuarioRepository.findByLogin(username);
         if (usuario == null) {
             throw new IllegalArgumentException("Usuário não encontrado");
         }
 
-        Conta conta = contaRepository.findByNumero(numeroConta);
+        Conta conta = contaRepository.findByNumero(usuario.getId());
         if (conta == null) {
             throw new IllegalArgumentException("Conta não encontrada");
         }
