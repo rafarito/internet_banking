@@ -77,6 +77,7 @@ public class Usuario implements UserDetails {
 		this.login = usuarioForm.login();
 		this.senha = usuarioForm.senha();
 		this.cpf = usuarioForm.cpf();
+		this.dataCadastro = LocalDate.now();
 	}
 
 	public Long getId() {

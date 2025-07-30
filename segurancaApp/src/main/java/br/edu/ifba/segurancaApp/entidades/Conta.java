@@ -21,7 +21,7 @@ public class Conta {
     private BigDecimal saldo;
     @OneToOne
     private Usuario usuario;
-    @OneToMany
+    @OneToMany(mappedBy = "conta")
     private List<Operacao> operacoes;
 
     public Conta() {
@@ -66,6 +66,12 @@ public class Conta {
         this.usuario = usuario;
     }
 
-    
+    public List<Operacao> getOperacoes() {
+        return operacoes;
+    }
+
+    public void setOperacoes(List<Operacao> operacoes) {
+        this.operacoes = operacoes;
+    }
 
 }
