@@ -65,13 +65,13 @@ public class OperacaoController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/extrato/{numeroConta}")
-    public ResponseEntity<?> consultarExtrato(@PathVariable Long numeroConta) {
+    @GetMapping("/extrato")
+    public ResponseEntity<?> consultarExtrato() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
         try {
-            var extrato = operacaoService.consultarExtrato(numeroConta, username);
+            var extrato = operacaoService.consultarExtrato(username);
             return ResponseEntity.ok(extrato);
         } catch (Exception e) { //TODO handle specific exceptions
             return ResponseEntity.badRequest().body("Erro ao consultar extrato: " + e.getMessage());
