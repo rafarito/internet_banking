@@ -30,9 +30,13 @@ public class UsuarioController {
 	
 	@PostMapping
 	@PreAuthorize("permitAll()")
-	public ResponseEntity<UsuarioDTO> salvar(@Valid @RequestBody UsuarioForm usuarioForm) {
-		UsuarioDTO usuarioDTO = usuarioService.salvar(usuarioForm);
-		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDTO);
+	public ResponseEntity<?> salvar(@Valid @RequestBody UsuarioForm usuarioForm) {
+		try{
+			UsuarioDTO usuarioDTO = usuarioService.salvar(usuarioForm);
+			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDTO);
+		}catch (Exception e){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping
