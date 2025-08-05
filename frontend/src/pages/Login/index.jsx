@@ -31,6 +31,9 @@ export default function Login() {
           onChange={(e) => setSenha(e.target.value)}
         />
         <button type="submit">Entrar</button>
+        <button type="button" onClick={() => navigate("/cadastro")}>
+          Não tem conta? Cadastre-se
+        </button>
       </form>
     </div>
   );
