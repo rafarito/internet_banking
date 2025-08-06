@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import "./index.css";
 
 export default function Extrato() {
+  const navigate = useNavigate();
   const [extrato, setExtrato] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,6 +15,7 @@ export default function Extrato() {
         
         if (!token) {
           alert('Token não encontrado. Faça login novamente.');
+          navigate('/login');
           setLoading(false);
           return;
         }
@@ -32,29 +36,65 @@ export default function Extrato() {
     };
 
     fetchExtrato();
-  }, []);
+  }, [navigate]);
 
-  if (loading) return <div>Carregando...</div>;
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  if (loading) return (
+    <div className="extrato-page">
+      <div className="loading-container">Carregando...</div>
+    </div>
+  );
 
   return (
-    <div>
-      <h1>Extrato</h1>
-      <div>
-        {extrato.length > 0 ? (
-          extrato.map((operacao) => (
-            <div key={operacao.id}>
-              <p><strong>ID:</strong> {operacao.id}</p>
-              <p><strong>Tipo:</strong> {operacao.tipo}</p>
-              <p><strong>Valor:</strong> R$ {operacao.valor.toFixed(2)}</p>
-              <p><strong>Data/Hora:</strong> {new Date(operacao.dataHora).toLocaleString()}</p>
-              <p><strong>Descrição:</strong> {operacao.descricao || 'Sem descrição'}</p>
-              <hr />
+    <div className="extrato-page">
+      <header className="extrato-header">
+        <div className="header-content">
+          <button onClick={() => navigate('/')} className="back-btn">
+            ← Voltar ao Dashboard
+          </button>
+          <h1>Extrato Completo</h1>
+          <button onClick={handleLogout} className="logout-btn">Sair</button>
+        </div>
+      </header>
+
+      <main className="extrato-main">
+        <div className="extrato-container">
+          {extrato.length > 0 ? (
+            <div className="extrato-list">
+              {extrato.map((operacao) => (
+                <div key={operacao.id} className="extrato-item" data-tipo={operacao.tipo}>
+                  <div className="extrato-header-item">
+                    <span className="extrato-id">#{operacao.id}</span>
+                    <span className="extrato-tipo">{operacao.tipo}</span>
+                  </div>
+                  <div className="extrato-content">
+                    <div className="extrato-info">
+                      <p className="extrato-descricao">
+                        {operacao.descricao || 'Sem descrição'}
+                      </p>
+                      <p className="extrato-data">
+                        {new Date(operacao.dataHora).toLocaleString('pt-BR')}
+                      </p>
+                    </div>
+                    <div className="extrato-valor">
+                      R$ {operacao.valor.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))
-        ) : (
-          <p>Nenhuma operação encontrada.</p>
-        )}
-      </div>
+          ) : (
+            <div className="no-transactions">
+              <h2>Nenhuma transação encontrada</h2>
+              <p>Suas transações aparecerão aqui quando você realizar operações.</p>
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
