@@ -9,18 +9,55 @@ export default function Register() {
     senha: "",
     cpf: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    if (name === 'cpf') {
+      // Remove all non-numeric characters
+      const numericValue = value.replace(/\D/g, '');
+      
+      // Apply CPF mask (XXX.XXX.XXX-XX)
+      let maskedValue = numericValue;
+      if (numericValue.length > 3) {
+        maskedValue = numericValue.substring(0, 3) + '.' + numericValue.substring(3);
+      }
+      if (numericValue.length > 6) {
+        maskedValue = maskedValue.substring(0, 7) + '.' + maskedValue.substring(7);
+      }
+      if (numericValue.length > 9) {
+        maskedValue = maskedValue.substring(0, 11) + '-' + maskedValue.substring(11, 13);
+      }
+      
+      setForm({ ...form, [name]: maskedValue });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await api.post("/usuarios", form);
+      // Remove mask from CPF before sending to API
+      const formData = {
+        ...form,
+        cpf: form.cpf.replace(/\D/g, '') // Remove dots and dashes
+      };
+      
+      await api.post("/usuarios", formData);
       alert("Usuário cadastrado com sucesso!");
+      setForm({
+        nome: "",
+        login: "",
+        senha: "",
+        cpf: "",
+      });
     } catch (err) {
       alert("Erro ao cadastrar usuário.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,8 +73,16 @@ export default function Register() {
           onChange={handleChange}
           type="password"
         />
-        <input name="cpf" placeholder="CPF" onChange={handleChange} />
-        <button type="submit">Cadastrar</button>
+        <input 
+          name="cpf" 
+          placeholder="CPF (000.000.000-00)" 
+          onChange={handleChange}
+          value={form.cpf}
+          maxLength="14"
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Cadastrando..." : "Cadastrar"}
+        </button>
       </form>
     </div>
   );
