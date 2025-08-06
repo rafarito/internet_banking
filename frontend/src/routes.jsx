@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Extrato from "./pages/extrato";
+import Extrato from "./components/Extrato";
 import Deposito from "./pages/Deposito";
 import Saque from "./pages/Saque";
 import Pagamento from "./pages/Pagamento";
