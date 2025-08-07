@@ -34,7 +34,6 @@ export default function Dashboard() {
     };
 
     fetchExtrato();
-    // Refresh extrato every 30 seconds
     const interval = setInterval(fetchExtrato, 30000);
     
     return () => clearInterval(interval);

@@ -14,7 +14,7 @@ export default function Login() {
       const response = await api.post("/login", { login, senha });
       alert("Login realizado com sucesso!");
       localStorage.setItem("token", response.data.token);
-      navigate("/"); // Redirect to Dashboard
+      navigate("/");
     } catch (err) {
       alert("Login inválido!");
     }

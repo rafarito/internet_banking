@@ -71,7 +71,6 @@ export default function Register() {
       setForm({ ...form, [name]: value });
     }
 
-    // Limpar erro ao digitar
     setErrors({ ...errors, [name]: "" });
   };
 
