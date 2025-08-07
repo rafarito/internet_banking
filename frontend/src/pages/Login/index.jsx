@@ -13,7 +13,7 @@ export default function Login() {
     try {
       const response = await api.post("/login", { login, senha });
       alert("Login realizado com sucesso!");
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem("token", response.data.token);
       navigate("/"); // Redirect to Dashboard
     } catch (err) {
       alert("Login inválido!");
@@ -24,7 +24,10 @@ export default function Login() {
     <div className="loginDiv">
       <form onSubmit={handleSubmit}>
         <h1>Internet Chair</h1>
-        <input placeholder="Login" onChange={(e) => setLogin(e.target.value)} />
+        <input
+          placeholder="E-mail"
+          onChange={(e) => setLogin(e.target.value)}
+        />
         <input
           placeholder="Senha"
           type="password"
